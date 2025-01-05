@@ -4,34 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>管理员面板</title>
-  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"></script>
-</head>
-<body>
-  <h1>更新当前号码</h1>
-  <form id="update-form">
-    <input type="number" id="new-number" placeholder="请输入新的号码" required />
-    <button type="submit">更新</button>
-  </form>
-  <script>
+  <!-- 使用模块导入方式 -->
+  <script type="module">
     // Firebase 配置
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyAf2gEpcaSSc0BAgBXPUJcbaJ42TWXKPPE",
       authDomain: "parents--day.firebaseapp.com",
       databaseURL: "https://parents--day-default-rtdb.firebaseio.com",
       projectId: "parents--day",
-      storageBucket: "parents--day.appspot.com",  // 修正错误
+      storageBucket: "parents--day.appspot.com",
       messagingSenderId: "209743580684",
       appId: "1:209743580684:web:45651483ee285bcb49a829",
       measurementId: "G-WPC20RSC7V"
     };
 
     // 初始化 Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
     // 引用数据库中的 currentNumber
-    const numberRef = firebase.ref(db, 'currentNumber');
+    const numberRef = ref(db, 'currentNumber');
 
     // 处理表单提交，更新号码
     document.getElementById('update-form').addEventListener('submit', async (e) => {
@@ -47,7 +42,7 @@
       // 更新数据库
       try {
         console.log("正在更新号码到：", newNumber); // 调试日志
-        await firebase.set(numberRef, parseInt(newNumber, 10)); // 正确调用 set 方法
+        await set(numberRef, parseInt(newNumber, 10)); // 正确调用 set 方法
         alert('号码更新成功！');
       } catch (error) {
         console.error("更新号码时出错：", error);
@@ -55,5 +50,12 @@
       }
     });
   </script>
+</head>
+<body>
+  <h1>更新当前号码</h1>
+  <form id="update-form">
+    <input type="number" id="new-number" placeholder="请输入新的号码" required />
+    <button type="submit">更新</button>
+  </form>
 </body>
 </html>
