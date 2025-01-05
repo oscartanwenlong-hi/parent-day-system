@@ -15,16 +15,16 @@
   </form>
   <script>
     // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAf2gEpcaSSc0BAgBXPUJcbaJ42TWXKPPE",
-    authDomain: "parents--day.firebaseapp.com",
-    databaseURL: "https://parents--day-default-rtdb.firebaseio.com",
-    projectId: "parents--day",
-    storageBucket: "parents--day.firebasestorage.app",
-    messagingSenderId: "209743580684",
-    appId: "1:209743580684:web:45651483ee285bcb49a829",
-    measurementId: "G-WPC20RSC7V"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyAf2gEpcaSSc0BAgBXPUJcbaJ42TWXKPPE",
+      authDomain: "parents--day.firebaseapp.com",
+      databaseURL: "https://parents--day-default-rtdb.firebaseio.com",
+      projectId: "parents--day",
+      storageBucket: "parents--day.appspot.com", // 修正错误
+      messagingSenderId: "209743580684",
+      appId: "1:209743580684:web:45651483ee285bcb49a829",
+      measurementId: "G-WPC20RSC7V"
+    };
 
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
@@ -37,8 +37,21 @@
     document.getElementById('update-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const newNumber = document.getElementById('new-number').value;
-      await firebase.set(numberRef, parseInt(newNumber, 10));
-      alert('Number updated!');
+
+      // Validate input
+      if (!newNumber || isNaN(newNumber)) {
+        alert("Please enter a valid number.");
+        return;
+      }
+
+      // Update the database
+      try {
+        await firebase.set(numberRef, parseInt(newNumber, 10));
+        alert('Number updated successfully!');
+      } catch (error) {
+        console.error("Error updating number: ", error);
+        alert("Failed to update number. Please try again.");
+      }
     });
   </script>
 </body>
