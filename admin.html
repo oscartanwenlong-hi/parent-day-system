@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Update Current Number</h1>
+  <form id="update-form">
+    <input type="number" id="new-number" placeholder="Enter new number" required />
+    <button type="submit">Update</button>
+  </form>
+  <script>
+    // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAf2gEpcaSSc0BAgBXPUJcbaJ42TWXKPPE",
+    authDomain: "parents--day.firebaseapp.com",
+    databaseURL: "https://parents--day-default-rtdb.firebaseio.com",
+    projectId: "parents--day",
+    storageBucket: "parents--day.firebasestorage.app",
+    messagingSenderId: "209743580684",
+    appId: "1:209743580684:web:45651483ee285bcb49a829",
+    measurementId: "G-WPC20RSC7V"
+  };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.getDatabase(app);
+
+    // Reference to the currentNumber in the database
+    const numberRef = firebase.ref(db, 'currentNumber');
+
+    // Update number on form submission
+    document.getElementById('update-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newNumber = document.getElementById('new-number').value;
+      await firebase.set(numberRef, parseInt(newNumber, 10));
+      alert('Number updated!');
+    });
+  </script>
+</body>
+</html>
