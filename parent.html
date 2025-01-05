@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Current Number</title>
+  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Current Number: <span id="current-number">Loading...</span></h1>
+  <script>
+    // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAf2gEpcaSSc0BAgBXPUJcbaJ42TWXKPPE",
+    authDomain: "parents--day.firebaseapp.com",
+    databaseURL: "https://parents--day-default-rtdb.firebaseio.com",
+    projectId: "parents--day",
+    storageBucket: "parents--day.firebasestorage.app",
+    messagingSenderId: "209743580684",
+    appId: "1:209743580684:web:45651483ee285bcb49a829",
+    measurementId: "G-WPC20RSC7V"
+  };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.getDatabase(app);
+
+    // Reference to the currentNumber in the database
+    const numberRef = firebase.ref(db, 'currentNumber');
+
+    // Listen for changes in the database
+    firebase.onValue(numberRef, (snapshot) => {
+      const number = snapshot.val();
+      document.getElementById('current-number').textContent = number;
+    });
+  </script>
+</body>
+</html>
